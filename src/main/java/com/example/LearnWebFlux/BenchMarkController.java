@@ -15,6 +15,5 @@ public class BenchMarkController {
     public String getUser(@PathVariable Long id){
         Thread.sleep(1000);
         return "full users : "+id;
-
     }
 }
