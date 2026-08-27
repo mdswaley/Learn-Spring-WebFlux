@@ -10,3 +10,13 @@ spring:
 #   2. -n 5000 = number of total requests
 #   3. -c 500 = concurrency
 #   4. -s 300 = timeout in seconds. means ApacheBench can wait up to 300 seconds for socket operations.
+
+
+#  Core Features of Spring WebFlux
+#  Feature      Spring MVC (Blocking)             Spring WebFlux (Reactive)
+
+#  Threading    Model One thread per request      Few threads + non-blocking
+#  ProgrammingStyle Imperative                    Reactive + Declarative
+#  Server       Tomcat, Jetty (Servlet)           Netty (default), Undertow
+#  Best For     Simple CRUD apps                  High concurrency, streaming
+#  Backpressure Not supported                     Built-in
