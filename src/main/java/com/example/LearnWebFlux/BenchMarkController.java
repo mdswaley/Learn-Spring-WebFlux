@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/benchmark")
 public class BenchMarkController {
-
     @SneakyThrows
     @GetMapping("/users/{id}")
     public String getUser(@PathVariable Long id){
