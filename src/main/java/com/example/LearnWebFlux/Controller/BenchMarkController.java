@@ -1,4 +1,4 @@
-package com.example.LearnWebFlux;
+package com.example.LearnWebFlux.Controller;
 
 import lombok.SneakyThrows;
 import org.springframework.web.bind.annotation.GetMapping;
