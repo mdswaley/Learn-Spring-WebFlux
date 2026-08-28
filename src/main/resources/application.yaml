@@ -3,7 +3,24 @@ spring:
     name: LearnWebFlux
   threads:
     virtual:
-      enabled: true
+      enabled:
+
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/learn_web_flux
+    username: postgres
+    password: 2003
+    sql:
+      init:
+        mode: always
+        schema-locations: classpath:schema.sql
+
+  server:
+    port: 8080
+    netty:
+    connection-timeout: 20s # Limits the duration allowed to establish the initial TCP socket connection
+    idle-timeout: 60s # Closes the connection if no read or write operations occur for 60 seconds.
+
+
 
 #   C:\Apache24\Apache24\bin\ab.exe -n 5000 -c 500 -s 300 http://localhost:8080/api/v1/benchmark/users/1
 #   1. C:\Apache24\Apache24\bin\ab.exe :- This is the path to ApacheBench. ab.exe = Apache Benchmark tool
