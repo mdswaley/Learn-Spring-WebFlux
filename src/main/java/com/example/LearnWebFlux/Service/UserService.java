@@ -1,4 +1,11 @@
 package com.example.LearnWebFlux.Service;
 
-public class UserService {
+import com.example.LearnWebFlux.DTO.UserResponse;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+public interface UserService {
+    Mono<UserResponse> getUserById(Long id);
+
+    Flux<UserResponse> findAllUsers();
 }

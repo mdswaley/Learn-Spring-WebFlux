@@ -1,5 +1,6 @@
 package com.example.LearnWebFlux.DTO;
 
+import com.example.LearnWebFlux.Entity.User;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -16,4 +17,21 @@ public class UserResponse {
     private String role;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public UserResponse(Long id, String name, String email){
+        this.id = id;
+        this.name = name;
+        this.email = email;
+    }
+
+    public static UserResponse from(User user){
+        return UserResponse.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .role(user.getRole())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
+                .build();
+    }
 }
