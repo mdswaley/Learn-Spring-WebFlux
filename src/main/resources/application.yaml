@@ -1,9 +1,9 @@
 spring:
   application:
     name: LearnWebFlux
-  threads:
-    virtual:
-      enabled:
+#  threads:
+#    virtual:
+#      enabled: true
 
   r2dbc:
     url: r2dbc:postgresql://localhost:5432/learn_web_flux
