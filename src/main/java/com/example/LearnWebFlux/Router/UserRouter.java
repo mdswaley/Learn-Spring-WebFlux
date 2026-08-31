@@ -14,8 +14,8 @@ public class UserRouter {
     public RouterFunction<ServerResponse> userRoutes(UserHandler handler) {
         return RouterFunctions.route()
                 .GET("/api/v1/users", handler::getAll)
-//                .POST("/api/v1/users", handler::create)
-//                .GET("/api/v1/users/{id}", handler::getById)
+                .POST("/api/v1/users", handler::create)
+                .GET("/api/v1/users/{id}", handler::getById)
 //                .PUT("/api/v1/users/{id}", handler::update)
 //                .DELETE("/api/v1/users/{id}", handler::delete)
                 .build();
