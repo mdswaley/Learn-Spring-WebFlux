@@ -3,6 +3,7 @@ package com.example.LearnWebFlux.Controller;
 import com.example.LearnWebFlux.DTO.UserRequest;
 import com.example.LearnWebFlux.DTO.UserResponse;
 import com.example.LearnWebFlux.Service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,7 +34,7 @@ public class UserController {
     }
 
     @PostMapping
-    public Mono<ResponseEntity<UserResponse>> createUserById(@RequestBody UserRequest userRequest){
+    public Mono<ResponseEntity<UserResponse>> createUserById(@Valid @RequestBody UserRequest userRequest){
         return userService.createUser(userRequest)
                 .map(user -> ResponseEntity.status(HttpStatus.CREATED)
                         .body(user));
