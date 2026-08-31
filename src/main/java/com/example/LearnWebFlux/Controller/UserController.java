@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 
-@RestController
+//@RestController // now we are using functional model for reactive. so we don't need controller
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
