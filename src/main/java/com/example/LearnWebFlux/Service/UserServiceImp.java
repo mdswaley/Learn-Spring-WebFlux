@@ -3,6 +3,7 @@ package com.example.LearnWebFlux.Service;
 import com.example.LearnWebFlux.DTO.UserRequest;
 import com.example.LearnWebFlux.DTO.UserResponse;
 import com.example.LearnWebFlux.Entity.User;
+import com.example.LearnWebFlux.Error.ResourceNotFoundException;
 import com.example.LearnWebFlux.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,7 @@ public class UserServiceImp implements UserService{
     @Override
     public Mono<UserResponse> getUserById(Long id) {
         return userRepository.findById(id)
-                .switchIfEmpty(Mono.error(new RuntimeException("User not found with id : "+id)))
+                .switchIfEmpty(Mono.error(new ResourceNotFoundException("User", id)))
                 .map(user -> UserResponse.from(user));
     }
 
