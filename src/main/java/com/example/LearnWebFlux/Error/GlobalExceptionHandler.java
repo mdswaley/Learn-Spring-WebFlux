@@ -9,11 +9,18 @@ import reactor.core.publisher.Mono;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public Mono<ResponseEntity<ErrorResponse>> handle(ResourceNotFoundException ex) {
+    @ExceptionHandler(RuntimeException.class)
+    public Mono<ResponseEntity<ErrorResponse>> handleRuntimeException(RuntimeException ex) {
         return Mono.just(ResponseEntity
-                        .status(HttpStatus.NOT_FOUND)
+                        .status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(new ErrorResponse(ex.getMessage())));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public Mono<ResponseEntity<ErrorResponse>> handleException(Exception ex) {
+        return Mono.just(ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse(ex.getMessage())));
     }
 
 }
