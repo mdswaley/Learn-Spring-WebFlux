@@ -9,6 +9,10 @@ spring:
     url: r2dbc:postgresql://localhost:5432/learn_web_flux
     username: postgres
     password: 2003
+    pool:  # Thread pool configuration
+      initial-size: 5 # initial thread size is 5
+      max-size: 20 # max 20
+      max-idle-time: 30m # if no request are coming till 30-minute threads are back to the thread pool
   sql:
     init:
       mode: always
