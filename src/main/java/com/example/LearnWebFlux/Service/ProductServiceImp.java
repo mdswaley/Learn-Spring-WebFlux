@@ -20,7 +20,7 @@ public class ProductServiceImp implements ProductService{
     public Mono<Product> getProductById(Long id) {
 
         return productWebClient.get()
-                .uri("/{id}", id)
+                .uri("/products/{id}", id)
                 .retrieve()
                 .bodyToMono(Product.class);
     }
@@ -28,6 +28,7 @@ public class ProductServiceImp implements ProductService{
     @Override
     public Flux<Product> getAllProducts() {
         return productWebClient.get()
+                .uri("/products")
                 .retrieve()
                 .bodyToFlux(Product.class);
     }

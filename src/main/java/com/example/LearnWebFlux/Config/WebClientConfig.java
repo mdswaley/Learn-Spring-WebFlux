@@ -12,7 +12,7 @@ public class WebClientConfig {
     @Bean
     public WebClient webClient(){
         return WebClient.builder()
-                .baseUrl("https://dummyjson.com/products")
+                .baseUrl("https://dummyjson.com")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE,
                         MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
