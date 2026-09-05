@@ -1,6 +1,5 @@
 package com.example.LearnWebFlux.Service;
 
-import com.example.LearnWebFlux.Config.WebClientConfig;
 import com.example.LearnWebFlux.DTO.Product;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
