@@ -11,4 +11,5 @@ public interface UserService {
     Flux<UserResponse> findAllUsers();
 
     Mono<UserResponse> createUser(UserRequest userRequest);
+
 }
