@@ -24,8 +24,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public Flux<ResponseEntity<Product>> getAllProducts(){
-        return productService.getAllProducts()
-                .map(ResponseEntity::ok);
+    public Flux<Product> getAllProducts(){
+        return productService.getAllProducts();
     }
 }
