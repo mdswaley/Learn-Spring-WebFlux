@@ -50,7 +50,12 @@ public class ProductServiceImp implements ProductService{
                         .onRetryExhaustedThrow((spec, signal) ->  // after 3 time retry throw this exception
                                 new ServiceUnavailableException("Product service down after retries")))
                 .onErrorMap(TimeoutException.class, // if you didn't get the product from given time it will throw this exception.
-                        ex -> new ServiceUnavailableException("product service timeout"));
+                        ex -> new ServiceUnavailableException("product service timeout"))
+                .onErrorResume(ex -> // if after all retry and timeout we don't want to throw exception. so instead of we can send dummy data
+                        Mono.just(Product.builder()
+                                .description("Product not found")
+                                .build())
+                        );
     }
 
     @Override
