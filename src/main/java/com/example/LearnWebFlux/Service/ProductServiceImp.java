@@ -1,8 +1,13 @@
 package com.example.LearnWebFlux.Service;
 
 import com.example.LearnWebFlux.DTO.Product;
+import com.example.LearnWebFlux.Error.BadRequestException;
+import com.example.LearnWebFlux.Error.ExternalServiceException;
+import com.example.LearnWebFlux.Error.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -21,6 +26,22 @@ public class ProductServiceImp implements ProductService{
         return productWebClient.get()
                 .uri("/products/{id}", id)
                 .retrieve()
+                .onStatus(
+                        HttpStatusCode::is4xxClientError,
+                        res -> res.bodyToMono(String.class)
+                                    .map(body -> {
+                                        if(res.statusCode() == HttpStatus.NOT_FOUND){
+                                            return new ResourceNotFoundException("Product", id);
+                                        }
+
+                                        return new BadRequestException("Bad request: "+body);
+                                    })
+                )
+                .onStatus(
+                        HttpStatusCode::is5xxServerError,
+                        res -> res.bodyToMono(String.class)
+                                .map(body -> new ExternalServiceException("Product service Unavailable"))
+                )
                 .bodyToMono(Product.class);
     }
 
