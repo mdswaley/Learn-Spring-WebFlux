@@ -1,8 +1,13 @@
 package com.example.LearnWebFlux.Config;
 
+import com.example.LearnWebFlux.Error.BadRequestException;
+import com.example.LearnWebFlux.Error.ExternalServiceException;
+import com.example.LearnWebFlux.Error.ResourceNotFoundException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -16,6 +21,11 @@ public class WebClientConfig {
                 .defaultHeader(HttpHeaders.CONTENT_TYPE,
                         MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+                .defaultStatusHandler(
+                        HttpStatusCode::is5xxServerError,
+                        res -> res.bodyToMono(String.class)
+                                .map(body -> new ExternalServiceException("External service error"))
+                )
                 .build();
     }
 }

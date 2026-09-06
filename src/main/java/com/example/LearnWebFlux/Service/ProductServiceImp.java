@@ -37,11 +37,6 @@ public class ProductServiceImp implements ProductService{
                                         return new BadRequestException("Bad request: "+body);
                                     })
                 )
-                .onStatus(
-                        HttpStatusCode::is5xxServerError,
-                        res -> res.bodyToMono(String.class)
-                                .map(body -> new ExternalServiceException("Product service Unavailable"))
-                )
                 .bodyToMono(Product.class);
     }
 
