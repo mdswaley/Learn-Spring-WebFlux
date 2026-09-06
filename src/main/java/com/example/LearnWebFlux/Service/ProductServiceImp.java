@@ -12,6 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.util.retry.Retry;
+
+import javax.naming.ServiceUnavailableException;
+import java.time.Duration;
+import java.util.concurrent.TimeoutException;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +42,15 @@ public class ProductServiceImp implements ProductService{
                                         return new BadRequestException("Bad request: "+body);
                                     })
                 )
-                .bodyToMono(Product.class);
+                .bodyToMono(Product.class)
+                .delayElement(Duration.ofSeconds(1)) // wait for given time then give the data
+                .timeout(Duration.ofSeconds(3))
+                .retryWhen(Retry.backoff(3, Duration.ofMillis(500)) // retry to get data for 3 times and delay of every retry is double like -> 1st (500 ms) -> 2nd (1000 ms) -> 3rd (2000 ms)
+                        .filter(ex -> ex instanceof ServiceUnavailableException) // only if it is ServiceUnavailableException
+                        .onRetryExhaustedThrow((spec, signal) ->  // after 3 time retry throw this exception
+                                new ServiceUnavailableException("Product service down after retries")))
+                .onErrorMap(TimeoutException.class, // if you didn't get the product from given time it will throw this exception.
+                        ex -> new ServiceUnavailableException("product service timeout"));
     }
 
     @Override
